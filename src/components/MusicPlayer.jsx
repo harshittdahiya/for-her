@@ -81,63 +81,64 @@ function MusicPlayer() {
 
   const fadeIn = async () => {
 
-  const audio = audioRef.current;
+    const audio = audioRef.current;
 
-  audio.volume = 0;
+    audio.volume = 0;
 
-  await audio.play();
+    await audio.play();
 
-  let vol = 0;
+    let vol = 0;
 
-  const interval = setInterval(() => {
+    const interval = setInterval(() => {
 
-    vol += 0.008;
+      vol += 0.008;
 
-    if (vol >= 0.18) {
+      if (vol >= 0.18) {
 
-      vol = 0.18;
+        vol = 0.18;
 
-      clearInterval(interval);
+        clearInterval(interval);
 
-    }
+      }
 
-    audio.volume = vol;
+      audio.volume = vol;
 
-  }, 70);
+    }, 70);
 
-};
+  };
 
   /* fade out */
 
   const fadeOut = () => {
 
-  const audio = audioRef.current;
+    const audio = audioRef.current;
 
-  let vol = audio.volume;
+    let vol = audio.volume;
 
-  const interval = setInterval(() => {
+    const interval = setInterval(() => {
 
-    vol -= 0.008;
+      vol -= 0.008;
 
-    if (vol <= 0.01) {
+      if (vol <= 0.01) {
 
-      audio.volume = 0;
+        audio.volume = 0;
 
-      clearInterval(interval);
+        clearInterval(interval);
 
-      setTimeout(() => {
-        audio.pause();
-      }, 120);
+        setTimeout(() => {
+          audio.pause();
+        }, 120);
 
-      return;
+        return;
 
-    }
+      }
 
-    audio.volume = vol;
+      audio.volume = vol;
 
-  }, 70);
+    }, 70);
 
-};
+  };
+
   /* play pause */
 
   const toggleMusic = async () => {
@@ -211,13 +212,13 @@ function MusicPlayer() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
 
-        className="fixed bottom-5 right-5 z-[999] 
+        className="fixed bottom-4 right-4 z-[999]
         bg-[#fffaf4]/80 backdrop-blur-xl
         border border-[#f1e7d8]
         shadow-[0_8px_40px_rgba(0,0,0,0.12)]
-        rounded-[32px]
-        px-4 py-4
-        w-[270px]"
+        rounded-[28px]
+        px-3 py-3 sm:px-4 sm:py-4
+        w-[200px] sm:w-[270px]"
       >
 
         {/* top */}
@@ -226,17 +227,17 @@ function MusicPlayer() {
 
           <div>
 
-            <p className="text-[#8f7a68] text-sm handwritten">
+            <p className="text-[#8f7a68] text-[10px] sm:text-sm handwritten">
               now playing
             </p>
 
-            <p className="text-[#5b3a29] text-base mt-1 font-medium">
+            <p className="text-[#5b3a29] text-sm sm:text-base mt-1 font-medium leading-tight">
               {songs[currentSong].title}
             </p>
 
           </div>
 
-          <div className="text-2xl">
+          <div className="text-xl sm:text-2xl">
             🎧
           </div>
 
@@ -251,39 +252,53 @@ function MusicPlayer() {
           value={progress}
           onChange={handleSeek}
 
-          className="w-full mt-5 accent-[#f4d35e]"
+          className="w-full mt-3 sm:mt-5 accent-[#f4d35e]"
         />
 
         {/* controls */}
 
-        <div className="flex items-center justify-center gap-6 mt-4">
+        <div className="flex items-center justify-center gap-4 mt-3 sm:mt-4">
 
-          <button
+          <motion.button
+            whileTap={{
+              scale: 0.88,
+            }}
+
             onClick={prevSong}
-            className="text-xl text-[#5b3a29] hover:scale-110 transition"
+
+            className="text-lg sm:text-xl text-[#5b3a29] hover:scale-110 transition"
           >
             ⏮
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
+            whileTap={{
+              scale: 0.88,
+            }}
+
             onClick={toggleMusic}
 
-            className="w-11 h-11 rounded-full
+            className="w-9 h-9 sm:w-11 sm:h-11 rounded-full
             bg-[#f4d35e]
             flex items-center justify-center
-            text-xl text-[#1f1612]
+            text-lg sm:text-xl text-[#1f1612]
             shadow-xl
             hover:scale-110 transition"
           >
             {playing ? "⏸" : "▶"}
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
+            whileTap={{
+              scale: 0.88,
+            }}
+
             onClick={nextSong}
-            className="text-2xl text-[#5b3a29] hover:scale-110 transition"
+
+            className="text-lg sm:text-xl text-[#5b3a29] hover:scale-110 transition"
           >
             ⏭
-          </button>
+          </motion.button>
 
         </div>
 
