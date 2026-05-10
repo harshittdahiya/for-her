@@ -1,86 +1,134 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const notes = [
-  "you definitely pretend not to care while caring deeply.",
+const flowers = [
+  {
+    id: 1,
+    note: "you type like you’re trying not to care too much.",
+    position: "top-[22%] left-[8%]",
+  },
 
-  "your reposts are basically encrypted diary entries.",
+  {
+    id: 2,
+    note: "yellow reminds me of you now unfortunately.",
+    position: "top-[20%] right-[10%]",
+  },
 
-  "you seem like someone who heals through travelling.",
+  {
+    id: 3,
+    note: "your communication skills are still deeply concerning btw.",
+    position: "bottom-[18%] left-[12%]",
+  },
 
-  "communication skills still under investigation.",
-
-  "you romanticize life like it personally owes you a rom-com.",
+  {
+    id: 4,
+    note: "you seem like someone who rewatches comfort movies.",
+    position: "bottom-[20%] right-[10%]",
+  },
 ];
 
 function LilyNotes() {
 
-  const [selectedNote, setSelectedNote] = useState(null);
+  const [activeNote, setActiveNote] = useState(null);
+
+  const [clickedFlowers, setClickedFlowers] = useState([]);
+
+  const handleFlowerClick = (flower) => {
+
+    setActiveNote(flower);
+
+    setClickedFlowers((prev) => [...prev, flower.id]);
+
+  };
 
   return (
     <>
-      {/* clickable lilies */}
+      {/* flowers */}
 
-      <div
-        className="fixed bottom-20 left-6 text-4xl cursor-pointer z-40"
-        onClick={() => setSelectedNote(notes[0])}
-      >
-        🌸
-      </div>
+      {flowers.map((flower, index) => (
 
-      <div
-        className="fixed top-32 right-6 text-5xl cursor-pointer z-40"
-        onClick={() => setSelectedNote(notes[1])}
-      >
-        🌸
-      </div>
+        !clickedFlowers.includes(flower.id) && (
 
-      <div
-        className="fixed top-[50%] left-4 text-3xl cursor-pointer z-40"
-        onClick={() => setSelectedNote(notes[2])}
-      >
-        🌸
-      </div>
+          <motion.div
+            key={flower.id}
 
-      <div
-        className="fixed bottom-40 right-8 text-4xl cursor-pointer z-40"
-        onClick={() => setSelectedNote(notes[3])}
-      >
-        🌸
-      </div>
+            initial={{ opacity: 0, scale: 0.8 }}
+
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: [0, -8, 0],
+            }}
+
+            transition={{
+              duration: 2 + index,
+              repeat: Infinity,
+            }}
+
+            onClick={() => handleFlowerClick(flower)}
+
+            className={`absolute ${flower.position} z-30 cursor-pointer`}
+          >
+
+            <div className="relative">
+
+              {/* flower */}
+
+              <div className="text-5xl drop-shadow-[0_0_25px_rgba(244,211,94,0.8)]">
+                🌸
+              </div>
+
+              {/* click me */}
+
+              <p className="absolute -right-10 top-4 text-sm handwritten text-[#5b3a29] opacity-80 whitespace-nowrap">
+                click me
+              </p>
+
+            </div>
+
+          </motion.div>
+
+        )
+
+      ))}
 
       {/* popup */}
 
       <AnimatePresence>
 
-        {selectedNote && (
+        {activeNote && (
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 flex items-center justify-center bg-black/30 z-50 px-6"
-            onClick={() => setSelectedNote(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+
+            onClick={() => setActiveNote(null)}
+
+            className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center px-6"
           >
 
-            <div className="bg-[#fffaf4] max-w-md rounded-3xl p-8 shadow-2xl text-center">
+            <motion.div
+              initial={{ scale: 0.8, y: 30 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0 }}
 
-              <div className="text-5xl mb-4">
-                🌸
-              </div>
+              transition={{ duration: 0.4 }}
 
-              <p className="text-[#5b3a29] text-2xl handwritten leading-relaxed">
-                {selectedNote}
+              onClick={(e) => e.stopPropagation()}
+
+              className="bg-[#fffaf4] border border-[#f1e7d8] shadow-2xl rounded-[32px] max-w-md w-full px-8 py-8 text-center relative"
+            >
+
+              <p className="text-[#5b3a29] handwritten text-3xl leading-relaxed">
+                {activeNote.note}
               </p>
 
-              <button
-                className="mt-8 px-6 py-3 rounded-full bg-[#5b3a29] text-[#fffaf4] hover:scale-105 transition-all duration-300 ease-in-out"
-              >
-                understood unfortunately
-              </button>
+              <p className="mt-8 text-sm text-[#8f7a68] opacity-70">
+                click anywhere to continue
+              </p>
 
-            </div>
+            </motion.div>
 
           </motion.div>
 
