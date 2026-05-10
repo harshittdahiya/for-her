@@ -1,4 +1,6 @@
-import { useState } from "react";
+// LilyNotes.jsx
+
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const flowers = [
@@ -33,6 +35,26 @@ function LilyNotes() {
 
   const [clickedFlowers, setClickedFlowers] = useState([]);
 
+  const allOpened = clickedFlowers.length === flowers.length;
+
+  const [showFinalMessage, setShowFinalMessage] = useState(true);
+
+  useEffect(() => {
+
+    if (allOpened) {
+
+      const timer = setTimeout(() => {
+
+        setShowFinalMessage(false);
+
+      }, 7000);
+
+      return () => clearTimeout(timer);
+
+    }
+
+  }, [allOpened]);
+
   const handleFlowerClick = (flower) => {
 
     setActiveNote(flower);
@@ -51,6 +73,10 @@ function LilyNotes() {
 
           <motion.div
             key={flower.id}
+
+            whileTap={{
+              scale: 0.88,
+            }}
 
             initial={{ opacity: 0, scale: 0.8 }}
 
@@ -72,13 +98,9 @@ function LilyNotes() {
 
             <div className="relative">
 
-              {/* flower */}
-
               <div className="text-5xl drop-shadow-[0_0_25px_rgba(244,211,94,0.8)]">
                 🌸
               </div>
-
-              {/* click me */}
 
               <p className="absolute -right-10 top-4 text-sm handwritten text-[#5b3a29] opacity-80 whitespace-nowrap">
                 click me
@@ -129,6 +151,44 @@ function LilyNotes() {
               </p>
 
             </motion.div>
+
+          </motion.div>
+
+        )}
+
+      </AnimatePresence>
+
+      {/* final hidden message */}
+
+      <AnimatePresence>
+
+        {allOpened && !activeNote && showFinalMessage && (
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+
+            transition={{
+              duration: 1,
+            }}
+
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-40"
+          >
+
+            <div className="bg-[#fffaf4]/80 backdrop-blur-md border border-[#f1e7d8] shadow-2xl rounded-full px-8 py-4">
+
+              <p className="text-[#5b3a29] handwritten text-xl whitespace-nowrap">
+                okay now stop pretending you weren’t curious enough to click all four.
+              </p>
+
+            </div>
 
           </motion.div>
 

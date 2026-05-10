@@ -1,6 +1,8 @@
+// App.jsx
+
 import FloatingLilies from "./components/FloatingLilies";
 import ObservationCard from "./components/ObservationCard";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import PhotoWall from "./components/PhotoWall";
 import LoveSection from "./components/LoveSection";
 import Ending from "./components/Ending";
@@ -9,9 +11,16 @@ import MusicPlayer from "./components/MusicPlayer";
 import LoadingScreen from "./components/LoadingScreen";
 import MusicNotice from "./components/MusicNotice";
 import CursorGlow from "./components/CursorGlow";
-import SecretFlower from "./components/SecretFlower";
 
 function App() {
+
+  const mouseX = useMotionValue(0);
+
+  const mouseY = useMotionValue(0);
+
+  const textX = useTransform(mouseX, [-500, 500], [-12, 12]);
+
+  const textY = useTransform(mouseY, [-500, 500], [-12, 12]);
 
   const observations = [
     "you act nonchalant but your reposts expose you immediately.",
@@ -28,44 +37,100 @@ function App() {
   ];
 
   return (
-    <main className="relative overflow-hidden bg-[#f8f3ea]">
+    <main
+      className="relative overflow-hidden bg-[#f8f3ea]"
+
+      onMouseMove={(e) => {
+
+        const { clientX, clientY } = e;
+
+        mouseX.set(clientX - window.innerWidth / 2);
+
+        mouseY.set(clientY - window.innerHeight / 2);
+
+      }}
+    >
+
       <LoadingScreen />
+
       <CursorGlow />
-      <SecretFlower />
+
       <MusicNotice />
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#f4d35e] opacity-20 blur-[120px] rounded-full"></div>
 
-<div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#d8b08c] opacity-20 blur-[120px] rounded-full"></div>
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#f4d35e] opacity-20 blur-[120px] rounded-full"></div>
+      {/* film grain */}
 
-<div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#d8b08c] opacity-20 blur-[120px] rounded-full"></div>
+      <div
+        className="fixed inset-0 pointer-events-none z-[1] opacity-[0.035]"
+        style={{
+          backgroundImage:
+            "url('https://www.transparenttextures.com/patterns/noise.png')",
+        }}
+      ></div>
+
+      {/* background glow */}
+
+<motion.div
+
+  style={{
+    x: useTransform(mouseX, [-500, 500], [-30, 30]),
+    y: useTransform(mouseY, [-500, 500], [-30, 30]),
+  }}
+
+  className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#f4d35e] opacity-20 blur-[120px] rounded-full"
+/>
+
+<motion.div
+
+  style={{
+    x: useTransform(mouseX, [-500, 500], [30, -30]),
+    y: useTransform(mouseY, [-500, 500], [30, -30]),
+  }}
+
+  className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#d8b08c] opacity-20 blur-[120px] rounded-full"
+/>
+
+      {/* decorative sparkles */}
+
+      <div className="fixed top-40 left-[20%] text-2xl opacity-20 animate-pulse z-0">
+        ✦
+      </div>
+
+      <div className="fixed bottom-40 right-[25%] text-2xl opacity-20 animate-pulse z-0">
+        ✧
+      </div>
+
+      <div className="fixed top-[60%] left-[10%] text-xl opacity-20 animate-pulse z-0">
+        ⋆
+      </div>
+
+      {/* floating elements */}
 
       <FloatingLilies />
+
       <LilyNotes />
+
       <MusicPlayer />
-      <div className="fixed top-40 left-[20%] text-2xl opacity-20 animate-pulse z-0">
-  ✦
-</div>
-
-<div className="fixed bottom-40 right-[25%] text-2xl opacity-20 animate-pulse z-0">
-  ✧
-</div>
-
-<div className="fixed top-[60%] left-[10%] text-xl opacity-20 animate-pulse z-0">
-  ⋆
-</div>
 
       {/* HERO SECTION */}
 
       <section className="min-h-screen flex items-center justify-center px-6">
 
         <motion.div
+
+          style={{
+            x: textX,
+            y: textY,
+          }}
+
           initial={{ opacity: 0, y: 40 }}
+
           animate={{ opacity: 1, y: 0 }}
+
           transition={{
             duration: 1,
             ease: "easeOut",
           }}
+
           className="relative z-10 text-center"
         >
 
@@ -92,6 +157,7 @@ function App() {
                 behavior: "smooth",
               });
             }}
+
             className="mt-10 px-8 py-4 rounded-full bg-[#5b3a29] text-[#fffaf4] text-lg hover:scale-105 hover:bg-[#6b4633] transition-all duration-300 ease-in-out shadow-xl"
           >
             enter carefully 🌸
@@ -130,11 +196,15 @@ function App() {
         </div>
 
       </section>
-<PhotoWall />
-<LoveSection />
-<Ending />
+
+      <PhotoWall />
+
+      <LoveSection />
+
+      <Ending />
+
     </main>
   );
 }
 
-export default App
+export default App;
