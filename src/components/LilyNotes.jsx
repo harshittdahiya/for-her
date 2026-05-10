@@ -179,12 +179,13 @@ function LilyNotes() {
               duration: 1,
             }}
 
-            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-40"
+            className="fixed bottom-32 sm:bottom-10 left-1/2 -translate-x-1/2 z-40 px-4"
           >
 
             <div className="bg-[#fffaf4]/80 backdrop-blur-md border border-[#f1e7d8] shadow-2xl rounded-full px-8 py-4">
 
-              <p className="text-[#5b3a29] handwritten text-xl whitespace-nowrap">
+              {/* <p className="text-[#5b3a29] handwritten text-xl whitespace-nowrap"> */}
+              <p className="text-[#5b3a29] handwritten text-sm sm:text-xl text-center">
                 okay now stop pretending you weren’t curious enough to click all four.
               </p>
 
