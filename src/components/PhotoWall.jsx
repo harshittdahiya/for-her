@@ -86,7 +86,18 @@ function PhotoWall() {
 
             {/* hanging tape */}
 
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#f4d35e] w-20 h-6 rounded-full opacity-80"></div>
+            <motion.div
+
+  whileHover={{
+    rotate: [0, -6, 6, -4, 0],
+  }}
+
+  transition={{
+    duration: 0.6,
+  }}
+
+  className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#f4d35e] w-20 h-6 rounded-full opacity-80"
+/>
 
             {/* photo */}
 
