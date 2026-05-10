@@ -4,7 +4,10 @@ function LoadingScreen() {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      animate={{ opacity: 0 }}
+      animate={{
+        opacity: 0,
+        pointerEvents: "none",
+      }}
       transition={{
         duration: 1,
         delay: 1.8,

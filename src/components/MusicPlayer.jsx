@@ -9,16 +9,31 @@ function MusicPlayer() {
 
   const [playing, setPlaying] = useState(false);
 
-  const toggleMusic = () => {
+  const toggleMusic = async () => {
 
     if (!playing) {
-      audioRef.current.volume = 0.25;
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
-    }
 
-    setPlaying(!playing);
+      try {
+
+        audioRef.current.volume = 0.18;
+
+        await audioRef.current.play();
+
+        setPlaying(true);
+
+      } catch (error) {
+
+        console.log("Audio failed:", error);
+
+      }
+
+    } else {
+
+      audioRef.current.pause();
+
+      setPlaying(false);
+
+    }
   };
 
   return (
@@ -36,8 +51,8 @@ function MusicPlayer() {
       >
 
         <div className="text-2xl text-[#5b3a29]">
-  {playing ? "⏸️" : "▶️"}
-</div>
+          {playing ? "⏸️" : "▶️"}
+        </div>
 
         <div className="text-left">
 

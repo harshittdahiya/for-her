@@ -7,6 +7,7 @@ import Ending from "./components/Ending";
 import LilyNotes from "./components/LilyNotes";
 import MusicPlayer from "./components/MusicPlayer";
 import LoadingScreen from "./components/LoadingScreen";
+import MusicNotice from "./components/MusicNotice";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
   return (
     <main className="relative overflow-hidden bg-[#f8f3ea]">
       <LoadingScreen />
+      <MusicNotice />
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#f4d35e] opacity-20 blur-[120px] rounded-full"></div>
 
 <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#d8b08c] opacity-20 blur-[120px] rounded-full"></div>
